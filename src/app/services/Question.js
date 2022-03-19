@@ -2,9 +2,13 @@ const Joi = require('joi');
 
 const QuestionModel = require('../models/Question');
 
+const questionsType = require('../data/questions');
+
+const answerType = require('../data/answers');
+
 const validateQuestion = (question) => Joi.object({
-  title: Joi.string().not().empty().required(),
-  answer: Joi.string().not().empty().required(),
+  title: Joi.any().valid(...questionsType),
+  answer: Joi.any().valid(...answerType),
 }).validate(question);
 
 const getAll = async () => {
