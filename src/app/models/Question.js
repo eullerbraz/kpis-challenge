@@ -2,6 +2,7 @@
 const {
   collection,
   getDocs,
+  addDoc,
 } = require('firebase/firestore');
 
 const db = require('./connection');
@@ -13,6 +14,12 @@ const getAll = async () => {
   return questionsList;
 }
 
+const create = async (question) => {
+  await addDoc(collection(db, "questions"), question);
+  return question;
+}
+
 module.exports = {
   getAll,
+  create,
 }

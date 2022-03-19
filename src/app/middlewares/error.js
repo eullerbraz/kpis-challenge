@@ -1,7 +1,7 @@
 module.exports = (err, _req, res, _next) => {
   const { message, code } = err;
 
-  if (code) {
+  if (Number(code)) {
     return res.status(code).json({ message });
   }
 
