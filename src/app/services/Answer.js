@@ -7,6 +7,7 @@ const quantityStrings = require('../data/quantityStrings');
 const validateAnswer = (answer) => Joi.object({
   peopleQuantity: Joi.any().valid(...quantityStrings),
   satisfaction: Joi.number().integer().min(1).max(10),
+  description: Joi.string().optional(),
 }).validate(answer);
 
 const getAll = async () => {
