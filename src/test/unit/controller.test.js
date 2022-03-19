@@ -1,53 +1,53 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const QuestionService = require('../../app/services/Question');
-const QuestionController = require('../../app/controllers/Question');
+const AnswerService = require('../../app/services/Answer');
+const AnswerController = require('../../app/controllers/Answer');
 const error = require('../../app/middlewares/error');
 
-describe('Teste camada controller de Question', () => {
-  describe('Listar todas as questões', () => {
+describe('Teste camada controller de Answer', () => {
+  describe('Listar todas as respostas', () => {
     const response = {};
     const request = {};
     const next = (err) => error(err, request, response, next);
 
-    const payloadQuestion = {
-      title: 'Quantas pessoas tem sua equipe?',
-      answer: '1 até 3',
-    }
+    const payloadAnswer =  {
+      peopleQuantity: "1 até 3",
+      satisfaction: 10,
+   }
 
-    const payloadQuestion2 = {
-      title: 'Qual a sua satisfação com a empresa?',
-      answer: '10'
-    }
+   const payloadAnswer2 =  {
+    peopleQuantity: "4 até 6",
+    satisfaction: 9,
+ }
 
     beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
-      sinon.stub(QuestionService, 'getAll').resolves([payloadQuestion, payloadQuestion2]);
+      sinon.stub(AnswerService, 'getAll').resolves([payloadAnswer, payloadAnswer2]);
     });
 
     afterEach(() => {
-      QuestionService.getAll.restore();
+      AnswerService.getAll.restore();
     });
 
     describe('Quando a busca é realizada com sucesso', () => {
       it('É chamado status com o código 200', async () => {
-        await QuestionController.getAll(request, response, next);
+        await AnswerController.getAll(request, response, next);
 
         expect(response.status.calledWith(200)).to.be.true;
       });
 
-      it('É chamado json com a questão criada', async () => {
-        await QuestionController.getAll(request, response, next);
+      it('É chamado json com a resposta criada', async () => {
+        await AnswerController.getAll(request, response, next);
 
-        expect(response.json.calledWith([payloadQuestion, payloadQuestion2])).to.be.true;
+        expect(response.json.calledWith([payloadAnswer, payloadAnswer2])).to.be.true;
       });
     })
   })
 
-  describe('Insersão de uma questão no banco de dados', () => {
+  describe('Insersão de uma resposta no banco de dados', () => {
     describe('Quando ocorre algum erro tratado', () => {
       const response = {};
       const request = {};
@@ -59,21 +59,21 @@ describe('Teste camada controller de Question', () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
   
-        sinon.stub(QuestionService, 'create').resolves(ERROR_OBJ);
+        sinon.stub(AnswerService, 'create').resolves(ERROR_OBJ);
       });
   
       afterEach(() => {
-        QuestionService.create.restore();
+        AnswerService.create.restore();
       });
 
       it('É chamado status com o código 400', async () => {
-        await QuestionController.create(request, response, next);
+        await AnswerController.create(request, response, next);
 
         expect(response.status.calledWith(ERROR_OBJ.code)).to.be.true;
       });
 
       it('É chamado json com a mensagem de erro', async () => {
-        await QuestionController.create(request, response, next);
+        await AnswerController.create(request, response, next);
 
         expect(response.json.calledWith({ message: ERROR_OBJ.message })).to.be.true;
       });
@@ -90,58 +90,59 @@ describe('Teste camada controller de Question', () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
   
-        sinon.stub(QuestionService, 'create').resolves(ERROR_OBJ);
+        sinon.stub(AnswerService, 'create').resolves(ERROR_OBJ);
       });
   
       afterEach(() => {
-        QuestionService.create.restore();
+        AnswerService.create.restore();
       });
 
       it('É chamado status com o código 500', async () => {
-        await QuestionController.create(request, response, next);
+        await AnswerController.create(request, response, next);
 
         expect(response.status.calledWith(500)).to.be.true;
       });
 
       it('É chamado json com a mensagem de erro', async () => {
-        await QuestionController.create(request, response, next);
+        await AnswerController.create(request, response, next);
 
         expect(response.json.calledWith({ message: ERROR_OBJ.message })).to.be.true;
       });
     })
 
-    describe('Quando cria a questão com sucesso', () => {
+    describe('Quando cria a resposta com sucesso', () => {
       const response = {};
       const request = {};
       const next = (err) => error(err, request, response, next);
-      const payloadQuestion = {
-        title: 'Quantas pessoas tem sua equipe?',
-        answer: '1 até 3',
-      }
+
+      const payloadAnswer =  {
+        peopleQuantity: "1 até 3",
+        satisfaction: 10,
+     }
   
       beforeEach(() => {
-        response.body = payloadQuestion;
+        response.body = payloadAnswer;
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
   
-        sinon.stub(QuestionService, 'create').resolves({ question: payloadQuestion });
+        sinon.stub(AnswerService, 'create').resolves({ answer: payloadAnswer });
       });
   
       afterEach(() => {
-        QuestionService.create.restore();
+        AnswerService.create.restore();
       });
 
 
       it('É chamado status com o código 201', async () => {
-        await QuestionController.create(request, response, next);
+        await AnswerController.create(request, response, next);
 
         expect(response.status.calledWith(201)).to.be.true;
       });
 
-      it('É chamado json com a question criada', async () => {
-        await QuestionController.create(request, response, next);
+      it('É chamado json com a resposta criada', async () => {
+        await AnswerController.create(request, response, next);
 
-        expect(response.json.calledWith(payloadQuestion)).to.be.true;
+        expect(response.json.calledWith(payloadAnswer)).to.be.true;
       });
     })
 

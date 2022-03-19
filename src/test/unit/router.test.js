@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 
-const QuestionRouter = require('../../app/routers/Question');
+const AnswerRouter = require('../../app/routers/Answer');
 
 describe('Testa existencia do router', () => {
-  expect(QuestionRouter).exist;
+  expect(AnswerRouter).exist;
 });
