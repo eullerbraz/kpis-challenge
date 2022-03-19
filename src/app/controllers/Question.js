@@ -11,7 +11,7 @@ const create = async (req, res, next) => {
 
   if (message) return next({ message, code });
 
-  return res.status(200).json(question);
+  return res.status(201).json(question);
 }
 
 module.exports = {
